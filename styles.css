@@ -12,7 +12,8 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(45deg, #8e44ad, #3498db);
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 .container {
