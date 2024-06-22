@@ -20,6 +20,23 @@ body {
     text-align: center;
 }
 
+.repo-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 1.2em;
+    color: white;
+    background: linear-gradient(45deg, #8e44ad, #3498db);
+    border: 2px solid white;
+    border-radius: 20px; /* Squircle shape */
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.repo-link:hover {
+    background: linear-gradient(45deg, #3498db, #8e44ad);
+}
+
 h1.title {
     margin-bottom: 20px;
     color: white;
