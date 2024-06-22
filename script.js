@@ -24,6 +24,15 @@ const winningConditions = [
 const xImage = 'X.png';
 const oImage = 'O.png';
 
+// Audio elements
+const backgroundMusic = new Audio('background music.mp3');
+const victorySound = new Audio('victory sound.mp3');
+const hitEffect = new Audio('hit effect.mp3');
+
+// Play background music in a loop
+backgroundMusic.loop = true;
+backgroundMusic.play();
+
 const handleCellClick = (event) => {
     const clickedCell = event.target;
     const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
@@ -34,6 +43,10 @@ const handleCellClick = (event) => {
 
     boardState[clickedCellIndex] = currentPlayer;
     clickedCell.style.backgroundImage = `url(${currentPlayer === 'X' ? xImage : oImage})`;
+    clickedCell.innerText = '';  // Clear any text
+
+    // Play hit effect sound
+    hitEffect.play();
 
     checkResult();
 };
@@ -53,6 +66,10 @@ const checkResult = () => {
         message.innerText = `${currentPlayer} has won!`;
         gameActive = false;
         resultScreen.style.display = 'flex';
+        // Stop background music and play victory sound
+        backgroundMusic.pause();
+        victorySound.loop = true;
+        victorySound.play();
         return;
     }
 
@@ -60,6 +77,8 @@ const checkResult = () => {
         message.innerText = `It's a tie!`;
         gameActive = false;
         resultScreen.style.display = 'flex';
+        // Stop background music (no victory sound in case of tie)
+        backgroundMusic.pause();
         return;
     }
 
@@ -72,12 +91,17 @@ const restartGame = () => {
     gameActive = true;
     boardState = ['', '', '', '', '', '', '', '', ''];
     cells.forEach(cell => {
-        cell.innerText = '';
-        cell.style.backgroundImage = '';
+        cell.style.backgroundImage = '';  // Clear background image
+        cell.innerText = '';  // Clear text content
     });
     resultScreen.style.display = 'none';
     message.innerText = '';
     playerTurn.innerText = `PLAYER ${currentPlayer}'s TURN`;
+
+    // Restart background music and stop victory sound
+    victorySound.pause();
+    victorySound.currentTime = 0;
+    backgroundMusic.play();
 };
 
 const newGame = () => {
