@@ -106,6 +106,12 @@ button {
     margin-top: 20px;
     font-size: 1.2em;
     color: white;
+    padding: 10px;
+    border-radius: 20px; /* Make it a squircle */
+    background: linear-gradient(45deg, #8e44ad, #3498db); /* Same gradient as the Play Again button */
+    border: 2px solid white; /* Added border */
+    display: inline-block;
+    margin-bottom: 20px;
 }
 
 @media (max-width: 500px) {
