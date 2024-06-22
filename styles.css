@@ -27,6 +27,7 @@ h1.title {
     padding: 10px;
     border-radius: 5px;
     display: inline-block;
+    border: 2px solid white; /* Added border */
 }
 
 #board.board {
@@ -50,6 +51,7 @@ h1.title {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    border: 2px solid white; /* Added border */
 }
 
 button {
@@ -57,12 +59,13 @@ button {
     padding: 10px 20px;
     font-size: 1em;
     cursor: pointer;
+    border: 2px solid white; /* Added border */
 }
 
 #restart {
     background-color: black;
     color: white;
-    border: none;
+    border: 2px solid white; /* Added border */
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -97,6 +100,7 @@ button {
     padding: 10px 20px;
     font-size: 1em;
     cursor: pointer;
+    border: 2px solid white; /* Added border */
 }
 
 .player-turn {
