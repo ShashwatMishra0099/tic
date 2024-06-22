@@ -5,6 +5,8 @@ const restartButton = document.getElementById('restart');
 const resultScreen = document.getElementById('resultScreen');
 const newGameButton = document.getElementById('newGame');
 const playerTurn = document.getElementById('playerTurn');
+const backgroundMusic = document.getElementById('backgroundMusic');
+
 let currentPlayer = 'X';
 let gameActive = true;
 let boardState = ['', '', '', '', '', '', '', '', ''];
@@ -19,6 +21,8 @@ const winningConditions = [
     [0, 4, 8],
     [2, 4, 6]
 ];
+
+backgroundMusic.play();
 
 const handleCellClick = (event) => {
     const clickedCell = event.target;
@@ -49,6 +53,7 @@ const checkResult = () => {
         message.innerText = `${currentPlayer} has won!`;
         gameActive = false;
         resultScreen.style.display = 'flex';
+        backgroundMusic.pause();
         return;
     }
 
@@ -56,6 +61,7 @@ const checkResult = () => {
         message.innerText = `It's a tie!`;
         gameActive = false;
         resultScreen.style.display = 'flex';
+        backgroundMusic.pause();
         return;
     }
 
@@ -71,6 +77,7 @@ const restartGame = () => {
     resultScreen.style.display = 'none';
     message.innerText = '';
     playerTurn.innerText = `PLAYER ${currentPlayer}'s TURN`;
+    backgroundMusic.play();
 };
 
 const newGame = () => {
