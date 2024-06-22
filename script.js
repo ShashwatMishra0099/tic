@@ -21,6 +21,9 @@ const winningConditions = [
     [2, 4, 6]
 ];
 
+const xImage = 'X.png';
+const oImage = 'O.png';
+
 const handleCellClick = (event) => {
     const clickedCell = event.target;
     const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
@@ -30,7 +33,7 @@ const handleCellClick = (event) => {
     }
 
     boardState[clickedCellIndex] = currentPlayer;
-    clickedCell.innerText = currentPlayer;
+    clickedCell.style.backgroundImage = `url(${currentPlayer === 'X' ? xImage : oImage})`;
 
     checkResult();
 };
@@ -68,7 +71,10 @@ const restartGame = () => {
     currentPlayer = 'X';
     gameActive = true;
     boardState = ['', '', '', '', '', '', '', '', ''];
-    cells.forEach(cell => cell.innerText = '');
+    cells.forEach(cell => {
+        cell.innerText = '';
+        cell.style.backgroundImage = '';
+    });
     resultScreen.style.display = 'none';
     message.innerText = '';
     playerTurn.innerText = `PLAYER ${currentPlayer}'s TURN`;
