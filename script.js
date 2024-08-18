@@ -3,6 +3,7 @@ let board = ['', '', '', '', '', '', '', '', ''];
 let gameActive = true;
 let gameMode = 'local'; // 'local' or 'online'
 let roomID = '';
+let currentRoomID = '';
 
 const playerTurnText = document.getElementById('playerTurn');
 const resultScreen = document.getElementById('resultScreen');
@@ -17,17 +18,13 @@ const musicToggle = document.getElementById('musicToggle');
 const modeSelection = document.getElementById('modeSelection');
 const roomManagement = document.getElementById('roomManagement');
 const joinRoomContainer = document.getElementById('joinRoomContainer');
+const gameContainer = document.getElementById('gameContainer');
 const roomIDContainer = document.getElementById('roomIDContainer');
 const roomIDDisplay = document.getElementById('roomID');
-const roomIDInput = document.getElementById('roomIDInput');
-const joinRoomBtn = document.getElementById('joinRoomBtn');
-const createRoomButton = document.getElementById('createRoom');
-const joinRoomButton = document.getElementById('joinRoom');
+
 let isMusicPlaying = false;
 
 function handleCellClick(event) {
-    if (gameMode === 'online') return; // Disable clicks in online mode for now
-
     const cell = event.target;
     const index = cell.getAttribute('data-index');
     if (board[index] !== '' || !gameActive) {
@@ -77,8 +74,6 @@ function showResultScreen(messageText) {
 }
 
 function restartGame() {
-    if (gameMode === 'online') return; // Disable restart in online mode for now
-
     currentPlayer = 'X';
     board = ['', '', '', '', '', '', '', '', ''];
     gameActive = true;
@@ -87,6 +82,7 @@ function restartGame() {
     });
     playerTurnText.textContent = `PLAYER ${currentPlayer}'s TURN`;
     resultScreen.style.display = 'none';
+    roomIDContainer.style.display = 'none'; // Hide room ID display
     victorySound.pause();
     victorySound.currentTime = 0;
     if (isMusicPlaying) {
@@ -105,58 +101,48 @@ function toggleMusic() {
     isMusicPlaying = !isMusicPlaying;
 }
 
-function showModeSelection() {
-    modeSelection.style.display = 'flex';
-    document.getElementById('gameContainer').style.display = 'none';
+function startLocalGame() {
+    modeSelection.style.display = 'none';
+    gameContainer.style.display = 'block';
+    restartGame(); // Initialize game
 }
 
 function showRoomManagement() {
-    roomManagement.style.display = 'flex';
     modeSelection.style.display = 'none';
+    roomManagement.style.display = 'flex';
 }
 
 function createRoom() {
-    roomID = Math.floor(1000 + Math.random() * 9000).toString();
-    roomIDDisplay.textContent = roomID;
-    roomIDContainer.style.display = 'flex';
-    joinRoomContainer.style.display = 'none';
-    document.getElementById('gameContainer').style.display = 'flex';
-    gameMode = 'online';
-    restartGame();
+    currentRoomID = Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit number
+    roomIDDisplay.textContent = currentRoomID;
+    roomIDContainer.style.display = 'flex'; // Show room ID display
+    roomManagement.style.display = 'none';
+    gameContainer.style.display = 'block';
+    restartGame(); // Initialize game
 }
 
 function joinRoom() {
-    roomID = roomIDInput.value;
-    if (roomID.length === 4) {
-        roomIDDisplay.textContent = roomID;
-        roomIDContainer.style.display = 'flex';
-        joinRoomContainer.style.display = 'none';
-        document.getElementById('gameContainer').style.display = 'flex';
-        gameMode = 'online';
-        restartGame();
+    currentRoomID = document.getElementById('roomIDInput').value;
+    if (currentRoomID) {
+        // Logic to join the room
+        roomManagement.style.display = 'none';
+        gameContainer.style.display = 'block';
+        restartGame(); // Initialize game
     } else {
-        alert('Please enter a valid 4-digit Room ID.');
+        alert('Please enter a Room ID');
     }
 }
 
-document.getElementById('localMode').addEventListener('click', () => {
-    modeSelection.style.display = 'none';
-    document.getElementById('gameContainer').style.display = 'flex';
-    gameMode = 'local';
-});
-
-document.getElementById('playWithFriend').addEventListener('click', showRoomManagement);
-createRoomButton.addEventListener('click', createRoom);
-joinRoomBtn.addEventListener('click', joinRoom);
-joinRoomButton.addEventListener('click', () => {
-    joinRoomContainer.style.display = 'flex';
-    roomManagement.style.display = 'none';
-});
-
+// Event Listeners
 cells.forEach(cell => cell.addEventListener('click', handleCellClick));
 restartButton.addEventListener('click', restartGame);
 newGameButton.addEventListener('click', restartGame);
 musicToggle.addEventListener('click', toggleMusic);
+
+document.getElementById('localMode').addEventListener('click', startLocalGame);
+document.getElementById('playWithFriend').addEventListener('click', showRoomManagement);
+document.getElementById('createRoom').addEventListener('click', createRoom);
+document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
 
 // Start background music initially if required
 backgroundMusic.play();
