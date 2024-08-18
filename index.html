@@ -7,10 +7,23 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="music-control">
-        <img id="musicToggle" src="sound-on.png" alt="Toggle Music">
+    <!-- Mode Selection Screen -->
+    <div id="modeSelection" class="mode-selection">
+        <button id="localMode" class="squircle-button">Local Mode</button>
+        <button id="playWithFriend" class="squircle-button">Play with Friend</button>
     </div>
-    <div class="container">
+
+    <!-- Room Management Screen -->
+    <div id="roomManagement" class="room-management" style="display: none;">
+        <button id="createRoom" class="squircle-button">Create Room</button>
+        <button id="joinRoom" class="squircle-button">Join Room</button>
+    </div>
+
+    <!-- Game Container -->
+    <div id="gameContainer" class="container" style="display: none;">
+        <div class="music-control">
+            <img id="musicToggle" src="sound-on.png" alt="Toggle Music">
+        </div>
         <a href="https://github.com/ShashwatMishra0099/tic.git" target="_blank" class="repo-link">REPO</a>
         <h1 class="title">Tic-Tac-Toe</h1>
         <div id="board" class="board">
@@ -25,14 +38,24 @@
             <div class="cell" data-index="8"></div>
         </div>
         <div class="player-turn" id="playerTurn">PLAYER X's TURN</div>
+        <div id="roomIDContainer" class="room-id-container" style="display: none;">
+            <div id="roomID" class="squircle-box">0000</div>
+        </div>
         <button id="restart">Restart</button>
     </div>
+
     <div class="result-screen" id="resultScreen">
         <div class="result-content">
             <div class="message" id="message"></div>
             <button id="newGame">Play Again</button>
         </div>
     </div>
+
+    <div id="joinRoomContainer" class="join-room-container" style="display: none;">
+        <input type="text" id="roomIDInput" placeholder="Enter Room ID" />
+        <button id="joinRoomBtn" class="squircle-button">Join Room</button>
+    </div>
+
     <audio id="backgroundMusic" src="background music.mp3" loop></audio>
     <audio id="victorySound" src="victory sound.mp3" loop></audio>
     <audio id="hitEffect" src="hit effect.mp3"></audio>
