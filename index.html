@@ -19,18 +19,22 @@
         </div>
 
         <!-- Room Management Screen -->
-        <div id="roomManagement" class="room-management" style="display: none;">
+        <div id="roomManagement" class="room-management">
             <h1 class="title">Room Management</h1>
             <button id="createRoom">Create Room</button>
-            <input type="text" id="roomIDInput" placeholder="Enter Room ID">
             <button id="joinRoom">Join Room</button>
+        </div>
+
+        <!-- Join Room Screen -->
+        <div id="joinRoomContainer" class="join-room-container">
+            <input type="text" id="roomIDInput" placeholder="Enter Room ID">
+            <button id="joinRoomBtn">Join Room</button>
         </div>
 
         <!-- Game Container -->
         <div id="gameContainer" class="game-container" style="display: none;">
             <a href="https://github.com/ShashwatMishra0099/tic.git" target="_blank" class="repo-link">REPO</a>
             <h1 class="title">Tic-Tac-Toe</h1>
-            <div id="roomIDDisplay" class="room-id-display"></div>
             <div id="board" class="board">
                 <div class="cell" data-index="0"></div>
                 <div class="cell" data-index="1"></div>
@@ -44,6 +48,9 @@
             </div>
             <div class="player-turn" id="playerTurn">PLAYER X's TURN</div>
             <button id="restart">Restart</button>
+            <div id="roomIDContainer" class="room-id-container">
+                <div class="room-id" id="roomID">----</div>
+            </div>
         </div>
 
         <!-- Result Screen -->
