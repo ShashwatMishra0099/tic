@@ -44,7 +44,7 @@ body {
     color: white;
     background: linear-gradient(45deg, #8e44ad, #3498db);
     border: 2px solid white;
-    border-radius: 20px;
+    border-radius: 20px; /* Squircle shape */
     text-decoration: none;
     transition: background 0.3s;
     text-align: center;
@@ -55,7 +55,7 @@ body {
 }
 
 .mode-selection, .room-management, .join-room-container, .game-container {
-    display: none;
+    display: none; /* Hide by default */
 }
 
 .mode-selection, .room-management {
@@ -70,22 +70,24 @@ body {
     padding: 10px 20px;
     font-size: 1em;
     cursor: pointer;
-    border: 2px solid white;
+    border: 2px solid white; /* Added border */
     background: linear-gradient(45deg, #8e44ad, #3498db);
     color: white;
-    border-radius: 20px;
+    border-radius: 20px; /* Squircle shape */
     text-transform: uppercase;
 }
 
-.room-management input {
+.join-room-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.join-room-container input {
     margin: 10px;
     padding: 10px;
     font-size: 1em;
     border-radius: 20px;
-    text-align: center;
-    border: 2px solid white;
-    color: white;
-    background-color: black;
 }
 
 #gameContainer {
@@ -113,7 +115,7 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    border: 2px solid white;
+    border: 2px solid white; /* Added border */
 }
 
 button {
@@ -121,13 +123,13 @@ button {
     padding: 10px 20px;
     font-size: 1em;
     cursor: pointer;
-    border: 2px solid white;
+    border: 2px solid white; /* Added border */
 }
 
 #restart {
     background-color: black;
     color: white;
-    border: 2px solid white;
+    border: 2px solid white; /* Added border */
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -162,7 +164,7 @@ button {
     padding: 10px 20px;
     font-size: 1em;
     cursor: pointer;
-    border: 2px solid white;
+    border: 2px solid white; /* Added border */
 }
 
 .player-turn {
@@ -170,17 +172,29 @@ button {
     font-size: 1.2em;
     color: white;
     padding: 10px;
-    border-radius: 20px;
-    background: linear-gradient(45deg, #8e44ad, #3498db);
-    border: 2px solid white;
+    border-radius: 20px; /* Make it a squircle */
+    background: linear-gradient(45deg, #8e44ad, #3498db); /* Same gradient as the Play Again button */
+    border: 2px solid white; /* Added border */
     display: inline-block;
     margin-bottom: 20px;
 }
 
-.room-id-display {
-    font-size: 2em;
-    color: pink;
-    margin-bottom: 20px;
+#roomIDContainer {
+    display: none; /* Hidden by default */
+}
+
+.room-id-container {
+    display: flex;
+    justify-content: center;
+}
+
+.room-id {
+    background-color: orange;
+    color: white;
+    padding: 10px;
+    font-size: 1.5em;
+    border-radius: 20px;
+    border: 2px solid white;
 }
 
 @media (max-width: 500px) {
