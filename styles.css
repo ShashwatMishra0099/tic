@@ -1,209 +1,75 @@
-/* CSS Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
+    font-family: Arial, sans-serif;
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('background.jpg') no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
-}
-
-.music-control {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.music-control img {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-}
-
-.container {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.repo-link {
-    display: inline-block;
-    margin-bottom: 10px;
-    padding: 10px 20px;
-    font-size: 1.2em;
     color: white;
-    background: linear-gradient(45deg, #8e44ad, #3498db);
-    border: 2px solid white;
-    border-radius: 20px; /* Squircle shape */
-    text-decoration: none;
-    transition: background 0.3s;
-    text-align: center;
 }
 
-.repo-link:hover {
-    background: linear-gradient(45deg, #3498db, #8e44ad);
-}
-
-.mode-selection, .room-management, .join-room-container, .game-container {
-    display: none; /* Hide by default */
-}
-
-.mode-selection, .room-management {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.mode-selection button, .room-management button, .join-room-container button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    border: 2px solid white; /* Added border */
-    background: linear-gradient(45deg, #8e44ad, #3498db);
-    color: white;
-    border-radius: 20px; /* Squircle shape */
-    text-transform: uppercase;
-}
-
-.join-room-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.join-room-container input {
-    margin: 10px;
-    padding: 10px;
-    font-size: 1em;
-    border-radius: 20px;
-}
-
-#gameContainer {
+#menuScreen, #roomManagementScreen, #gameScreen {
     display: none;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
 
-#board.board {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-    width: 300px;
-    margin: 0 auto;
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
 }
 
-#board .cell {
+.squircle-button {
+    border: none;
+    background: linear-gradient(45deg, #6a5acd, #836FFF);
+    color: white;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    border-radius: 50px;
+    margin: 10px;
+    cursor: pointer;
+    width: 200px;
+}
+
+#roomIdInput {
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    width: 180px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 10px;
+    margin: 20px 0;
+}
+
+.cell {
     width: 100px;
     height: 100px;
-    background-color: #000;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 2em;
     cursor: pointer;
-    border-radius: 20px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: 2px solid white; /* Added border */
 }
 
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    border: 2px solid white; /* Added border */
-}
-
-#restart {
-    background-color: black;
-    color: white;
-    border: 2px solid white; /* Added border */
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.result-screen {
+#resultScreen {
     display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
-.result-content {
-    background: #fff;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.message {
-    margin-bottom: 20px;
+#roomIdDisplay {
     font-size: 1.5em;
-}
-
-#newGame {
-    background: linear-gradient(45deg, #8e44ad, #3498db);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    border: 2px solid white; /* Added border */
-}
-
-.player-turn {
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: white;
-    padding: 10px;
-    border-radius: 20px; /* Make it a squircle */
-    background: linear-gradient(45deg, #8e44ad, #3498db); /* Same gradient as the Play Again button */
-    border: 2px solid white; /* Added border */
-    display: inline-block;
+    color: #FF69B4;
     margin-bottom: 20px;
-}
-
-#roomIDContainer {
-    display: none; /* Hidden by default */
-}
-
-.room-id-container {
-    display: flex;
-    justify-content: center;
-}
-
-.room-id {
-    background-color: orange;
-    color: white;
-    padding: 10px;
-    font-size: 1.5em;
-    border-radius: 20px;
-    border: 2px solid white;
-}
-
-@media (max-width: 500px) {
-    #board.board {
-        width: 90vw;
-    }
-    #board .cell {
-        width: 30vw;
-        height: 30vw;
-        font-size: 1.5em;
-    }
 }
