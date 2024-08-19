@@ -1,140 +1,150 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const localModeButton = document.getElementById('localModeButton');
-    const playWithFriendButton = document.getElementById('playWithFriendButton');
-    const modeSelection = document.querySelector('.mode-selection');
-    const roomManagement = document.querySelector('.room-management');
-    const createRoomButton = document.getElementById('createRoomButton');
-    const joinRoomButton = document.getElementById('joinRoomButton');
-    const roomIDInput = document.getElementById('roomIDInput');
-    const roomIDContainer = document.getElementById('roomIDContainer');
-    const roomIDDisplay = document.createElement('div');
-    const board = document.getElementById('board');
-    const cells = document.querySelectorAll('.cell');
-    const playerTurnDisplay = document.querySelector('.player-turn');
-    const resultScreen = document.querySelector('.result-screen');
-    const resultMessage = document.querySelector('.message');
-    const newGameButton = document.getElementById('newGame');
+let currentPlayer = 'X';
+let board = ['', '', '', '', '', '', '', '', ''];
+let gameActive = true;
+let gameMode = 'local'; // 'local' or 'online'
+let roomID = '';
+let currentRoomID = '';
 
-    let currentPlayer = 'X';
-    let gameActive = true;
-    let gameState = ['', '', '', '', '', '', '', '', ''];
-    
-    // Initialize game
-    function initializeGame() {
-        gameState = ['', '', '', '', '', '', '', '', ''];
-        currentPlayer = 'X';
-        gameActive = true;
-        cells.forEach(cell => {
-            cell.textContent = '';
-            cell.classList.remove('winning-cell');
-        });
-        playerTurnDisplay.textContent = `Player ${currentPlayer}'s turn`;
-        resultScreen.style.display = 'none';
+const playerTurnText = document.getElementById('playerTurn');
+const resultScreen = document.getElementById('resultScreen');
+const message = document.getElementById('message');
+const restartButton = document.getElementById('restart');
+const newGameButton = document.getElementById('newGame');
+const cells = document.querySelectorAll('.cell');
+const backgroundMusic = document.getElementById('backgroundMusic');
+const victorySound = document.getElementById('victorySound');
+const hitEffect = document.getElementById('hitEffect');
+const musicToggle = document.getElementById('musicToggle');
+const modeSelection = document.getElementById('modeSelection');
+const roomManagement = document.getElementById('roomManagement');
+const joinRoomContainer = document.getElementById('joinRoomContainer');
+const gameContainer = document.getElementById('gameContainer');
+const roomIDContainer = document.getElementById('roomIDContainer');
+const roomIDDisplay = document.getElementById('roomID');
+
+let isMusicPlaying = false;
+
+function handleCellClick(event) {
+    const cell = event.target;
+    const index = cell.getAttribute('data-index');
+    if (board[index] !== '' || !gameActive) {
+        return;
     }
+    board[index] = currentPlayer;
+    cell.style.backgroundImage = `url(${currentPlayer}.png)`;
+    hitEffect.play();
 
-    // Handle cell click
-    function handleCellClick(clickedCellEvent) {
-        const clickedCell = clickedCellEvent.target;
-        const clickedCellIndex = Array.from(cells).indexOf(clickedCell);
-
-        if (gameState[clickedCellIndex] !== '' || !gameActive) {
-            return;
-        }
-
-        gameState[clickedCellIndex] = currentPlayer;
-        clickedCell.textContent = currentPlayer;
-
-        checkResult();
-    }
-
-    // Check the result of the game
-    function checkResult() {
-        const winningConditions = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
-
-        let roundWon = false;
-        for (let i = 0; i < winningConditions.length; i++) {
-            const [a, b, c] = winningConditions[i];
-            if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
-                roundWon = true;
-                break;
-            }
-        }
-
-        if (roundWon) {
-            gameActive = false;
-            resultMessage.textContent = `Player ${currentPlayer} has won!`;
-            resultScreen.style.display = 'flex';
-            return;
-        }
-
-        const roundDraw = !gameState.includes('');
-        if (roundDraw) {
-            gameActive = false;
-            resultMessage.textContent = 'Game ended in a draw!';
-            resultScreen.style.display = 'flex';
-            return;
-        }
-
+    if (checkWin()) {
+        gameActive = false;
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
+        victorySound.play();
+        showResultScreen(`${currentPlayer} Wins!`);
+    } else if (board.every(cell => cell !== '')) {
+        gameActive = false;
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
+        showResultScreen(`It's a Draw!`);
+    } else {
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        playerTurnDisplay.textContent = `Player ${currentPlayer}'s turn`;
+        playerTurnText.textContent = `PLAYER ${currentPlayer}'s TURN`;
     }
+}
 
-    // Event listeners for cell clicks
-    cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-
-    // Event listener for new game button
-    newGameButton.addEventListener('click', initializeGame);
-
-    // Room ID Display Setup
-    roomIDDisplay.id = 'roomIDDisplay';
-    roomIDDisplay.style.color = 'pink';
-    roomIDContainer.appendChild(roomIDDisplay);
-
-    // Handle Local Mode Button click
-    localModeButton.addEventListener('click', () => {
-        modeSelection.style.display = 'none';
-        initializeGame();
+function checkWin() {
+    const winConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+    return winConditions.some(condition => {
+        const [a, b, c] = condition;
+        return board[a] && board[a] === board[b] && board[a] === board[c];
     });
+}
 
-    // Handle Play with Friend Button click
-    playWithFriendButton.addEventListener('click', () => {
-        modeSelection.style.display = 'none';
-        roomManagement.style.display = 'block';
+function showResultScreen(messageText) {
+    message.textContent = messageText;
+    resultScreen.style.display = 'flex';
+}
+
+function restartGame() {
+    currentPlayer = 'X';
+    board = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+    cells.forEach(cell => {
+        cell.style.backgroundImage = '';
     });
+    playerTurnText.textContent = `PLAYER ${currentPlayer}'s TURN`;
+    resultScreen.style.display = 'none';
+    roomIDContainer.style.display = 'none'; // Hide room ID display
+    victorySound.pause();
+    victorySound.currentTime = 0;
+    if (isMusicPlaying) {
+        backgroundMusic.play();
+    }
+}
 
-    // Handle Create Room Button click
-    createRoomButton.addEventListener('click', () => {
-        const roomID = generateRoomID();
-        roomIDDisplay.textContent = `Room ID: ${roomID}`;
-        roomIDContainer.style.display = 'block';
+function toggleMusic() {
+    if (isMusicPlaying) {
+        backgroundMusic.pause();
+        musicToggle.src = 'no sound.png';
+    } else {
+        backgroundMusic.play();
+        musicToggle.src = 'sound-on.png';
+    }
+    isMusicPlaying = !isMusicPlaying;
+}
+
+function startLocalGame() {
+    modeSelection.style.display = 'none';
+    gameContainer.style.display = 'block';
+    restartGame(); // Initialize game
+}
+
+function showRoomManagement() {
+    modeSelection.style.display = 'none';
+    roomManagement.style.display = 'flex';
+}
+
+function createRoom() {
+    currentRoomID = Math.floor(1000 + Math.random() * 9000); // Generate a random 4-digit number
+    roomIDDisplay.textContent = currentRoomID;
+    roomIDContainer.style.display = 'flex'; // Show room ID display
+    roomManagement.style.display = 'none';
+    gameContainer.style.display = 'block';
+    restartGame(); // Initialize game
+}
+
+function joinRoom() {
+    currentRoomID = document.getElementById('roomIDInput').value;
+    if (currentRoomID) {
+        // Logic to join the room
         roomManagement.style.display = 'none';
-        initializeGame();
-    });
-
-    // Handle Join Room Button click
-    joinRoomButton.addEventListener('click', () => {
-        const roomID = roomIDInput.value.trim();
-        if (roomID) {
-            roomIDDisplay.textContent = `Room ID: ${roomID}`;
-            roomIDContainer.style.display = 'block';
-            roomManagement.style.display = 'none';
-            initializeGame();
-        } else {
-            alert('Please enter a valid Room ID.');
-        }
-    });
-
-    // Function to generate a unique 6-digit Room ID
-    function generateRoomID() {
-        return Math.floor(100000 + Math.random() * 900000).toString();
+        gameContainer.style.display = 'block';
+        restartGame(); // Initialize game
+    } else {
+        alert('Please enter a Room ID');
     }
-});
+}
+
+// Event Listeners
+cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+restartButton.addEventListener('click', restartGame);
+newGameButton.addEventListener('click', restartGame);
+musicToggle.addEventListener('click', toggleMusic);
+
+document.getElementById('localMode').addEventListener('click', startLocalGame);
+document.getElementById('playWithFriend').addEventListener('click', showRoomManagement);
+document.getElementById('createRoom').addEventListener('click', createRoom);
+document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
+
+// Start background music initially if required
+backgroundMusic.play();
+isMusicPlaying = true;
+musicToggle.src = 'sound-on.png';
